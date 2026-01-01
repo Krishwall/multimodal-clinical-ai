@@ -1,0 +1,9 @@
+{
+  "NORMAL": 0,
+  "PNEUMONIA": 1,
+  "EFFUSION": 2,
+  "PNEUMOTHORAX": 3,
+  "CARDIOMEGALY": 4,
+  "EDEMA": 5,
+  "OTHER": 6
+}

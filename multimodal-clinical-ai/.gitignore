@@ -1,0 +1,48 @@
+# Raw image formats
+*.raw
+*.dng
+*.cr2
+*.cr3
+*.nef
+*.arw
+*.rw2
+*.orf
+*.srw
+*.x3f
+*.raf
+*.dcr
+*.k25
+*.kdc
+*.mrw
+
+# Medical imaging formats (common in clinical AI)
+*.dcm
+*.dicom
+*.nii
+*.nii.gz
+*.mha
+*.mhd
+
+# Compressed raw formats
+*.tiff
+*.tif
+
+# Processed image formats that might be large
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.gif
+*.webp
+
+# Model checkpoints
+*.pt
+*.pth
+*.ckpt
+*.model
+*.h5
+*.pb
+*.onnx
+
+# Checkpoint directories
+checkpoints/
