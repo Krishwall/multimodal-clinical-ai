@@ -5,7 +5,7 @@ import streamlit as st
 # Function to install requirements automatically
 def install_requirements():
     try:
-        with open('requirements.txt', 'r') as f:
+        with open(r'D:\multimodal-clinical-ai\multimodal-clinical-ai\requirements.txt', 'r') as f:
             requirements = f.read().splitlines()
 
         for req in requirements:
