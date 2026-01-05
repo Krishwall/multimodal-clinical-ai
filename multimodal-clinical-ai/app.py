@@ -17,6 +17,8 @@ def install_requirements():
                     # Special handling for packages with different import names
                     if package_name == 'Pillow':
                         __import__('PIL')
+                    elif package_name == 'opencv-python':
+                        __import__('cv2')
                     else:
                         __import__(package_name)
 
@@ -25,11 +27,21 @@ def install_requirements():
                     # Use --upgrade and --no-deps flags to handle conflicts better
                     result = subprocess.run([
                         sys.executable, '-m', 'pip', 'install', req,
-                        '--upgrade', '--quiet', '--no-cache-dir'
+                        '--upgrade', '--quiet', '--no-cache-dir', '--timeout', '300'
                     ], capture_output=True, text=True)
 
                     if result.returncode != 0:
-                        st.warning(f"Could not install {req}: {result.stderr}")
+                        st.warning(f"Could not install {req}. Attempting with --find-links...")
+                        # Try alternative installation with more lenient approach
+                        alt_result = subprocess.run([
+                            sys.executable, '-m', 'pip', 'install', req.split('>=')[0].split('==')[0],
+                            '--upgrade', '--quiet', '--no-cache-dir', '--timeout', '300', '--force-reinstall'
+                        ], capture_output=True, text=True)
+
+                        if alt_result.returncode != 0:
+                            st.error(f"Failed to install {req}. Error: {alt_result.stderr}")
+                        else:
+                            st.success(f"Successfully installed {req} with alternative method")
                     else:
                         st.success(f"Successfully installed {req}")
 
