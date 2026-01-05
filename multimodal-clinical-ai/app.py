@@ -8,16 +8,33 @@ def install_requirements():
         with open('requirements.txt', 'r') as f:
             requirements = f.read().splitlines()
 
-        installed_packages = subprocess.check_output([sys.executable, '-m', 'pip', 'list']).decode('utf-8').lower()
-
         for req in requirements:
             if req.strip() and not req.startswith('#'):
-                package_name = req.split('==')[0].split('>=')[0].split('<=')[0].split('>')[0].split('<')[0].strip()
-                if package_name.lower() not in installed_packages:
+                try:
+                    # Try to import the package first
+                    package_name = req.split('==')[0].split('>=')[0].split('<=')[0].split('>')[0].split('<')[0].strip()
+
+                    # Special handling for packages with different import names
+                    if package_name == 'Pillow':
+                        __import__('PIL')
+                    else:
+                        __import__(package_name)
+
+                except ImportError:
                     st.info(f"Installing {req}...")
-                    subprocess.check_call([sys.executable, '-m', 'pip', 'install', req])
+                    # Use --upgrade and --no-deps flags to handle conflicts better
+                    result = subprocess.run([
+                        sys.executable, '-m', 'pip', 'install', req,
+                        '--upgrade', '--quiet', '--no-cache-dir'
+                    ], capture_output=True, text=True)
+
+                    if result.returncode != 0:
+                        st.warning(f"Could not install {req}: {result.stderr}")
+                    else:
+                        st.success(f"Successfully installed {req}")
+
     except Exception as e:
-        st.error(f"Error installing requirements: {e}")
+        st.error(f"Error checking/installing requirements: {e}")
 
 # Install requirements if needed
 install_requirements()
