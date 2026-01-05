@@ -3,9 +3,9 @@ import torch
 import torch.nn.functional as F
 from PIL import Image
 
-from utils.load_model import load_fusion_model
-from utils.grad_cam import GradCAM, overlay_cam
-from utils.saliency import (
+from demo.utils.load_model import load_fusion_model
+from demo.utils.grad_cam import GradCAM, overlay_cam
+from demo.utils.saliency import (
     compute_text_saliency,
     merge_wordpieces,
     filter_tokens,
@@ -42,7 +42,7 @@ st.divider()
 @st.cache_resource
 def load_all():
     return load_fusion_model(
-        "../checkpoints/fusion_model/fusion_layer4_tuned.pt"
+        "checkpoints/fusion_model/fusion_layer4_tuned.pt"
     )
 
 model, tokenizer, image_transform, LABELS, device = load_all()
