@@ -1,8 +1,30 @@
+import subprocess
+import sys
 import streamlit as st
+
+# Function to install requirements automatically
+def install_requirements():
+    try:
+        with open('requirements.txt', 'r') as f:
+            requirements = f.read().splitlines()
+
+        installed_packages = subprocess.check_output([sys.executable, '-m', 'pip', 'list']).decode('utf-8').lower()
+
+        for req in requirements:
+            if req.strip() and not req.startswith('#'):
+                package_name = req.split('==')[0].split('>=')[0].split('<=')[0].split('>')[0].split('<')[0].strip()
+                if package_name.lower() not in installed_packages:
+                    st.info(f"Installing {req}...")
+                    subprocess.check_call([sys.executable, '-m', 'pip', 'install', req])
+    except Exception as e:
+        st.error(f"Error installing requirements: {e}")
+
+# Install requirements if needed
+install_requirements()
+
 import torch
 import torch.nn.functional as F
 from PIL import Image
-
 from demo.utils.load_model import load_fusion_model
 from demo.utils.grad_cam import GradCAM, overlay_cam
 from demo.utils.saliency import (
