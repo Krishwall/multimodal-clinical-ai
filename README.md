@@ -63,9 +63,9 @@ If you use this model in your research, please cite:
 ```bibtex
 @software{multimodal_clinical_ai,
   title={Multimodal Clinical AI: Chest X-ray Analysis with Radiology Text},
-  author={Your Name},
-  year={2024},
-  url={https://huggingface.co/spaces/your-username/multimodal-clinical-ai}
+  author={KRISH JAISWAL},
+  year={2025},
+  url={https://huggingface.co/spaces/Krishwall/multimodal-clinical-ai}
 }
 ```
 
